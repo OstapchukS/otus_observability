@@ -1,2 +1,15 @@
 # otus_observability
-studies
+GAP-1
+
+На ВМ Ubuntu:
+- развернута CMS Made Simple
+- устновлены и запущены:
+  - node_exporter
+  - mysql_exporter
+  - blackbox_exporter
+
+На докер сервере в этой же сети запущен Prometheus с джобами:
+  - сам prometheus
+  - vm
+  - mysql
+  - blackbox_cms
