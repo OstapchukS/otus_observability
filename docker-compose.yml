@@ -10,6 +10,17 @@ services:
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
     restart: unless-stopped
+  victoriametrics:
+    container_name: victoriametrics
+    image: victoriametrics/victoria-metrics:latest
+    ports:
+      - "8428:8428"
+    volumes:
+      - ./vm-data:/storage
+    command:
+      - "-storageDataPath=/storage"
+      - "-retentionPeriod=14d"
+    restart: unless-stopped
 
 volumes:
   prometheus-data:
