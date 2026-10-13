@@ -1,0 +1,11 @@
+groups:
+  - name: target_health
+    rules:
+      - alert: InstanceDown
+        expr: up == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "{{ $labels.instance }} недоступен"
+          description: "{{ $labels.instance }} не отвечает более 1 минуты"
