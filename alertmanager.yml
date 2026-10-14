@@ -2,15 +2,30 @@ global:
   resolve_timeout: 5m
 
 route:
-  receiver: telegram
+  receiver: telegram-warning
   group_by: [alertname, instance]
   group_wait: 10s
   group_interval: 5m
   repeat_interval: 1h
 
+  routes:
+    - matchers:
+        - severity="critical"
+      receiver: telegram-critical
+      continue: false
+
+    - matchers:
+        - severity="warning"
+      receiver: telegram-warning
+
 receivers:
-  - name: telegram
+  - name: telegram-critical
     telegram_configs: 
-      - bot_token_file: ./telegram_token
-        chat_id_file: ./telegram_id
+      - bot_token_file: /etc/alertmanager/telegram_token
+        chat_id_file: /etc/alertmanager/telegram_id_critical
         send_resolved: true 
+  - name: telegram-warning
+    telegram_configs:
+      - bot_token_file: /etc/alertmanager/telegram_token
+        chat_id_file: /etc/alertmanager/telegram_id_warning
+        send_resolved: true

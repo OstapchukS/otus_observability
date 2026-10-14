@@ -9,3 +9,12 @@ groups:
         annotations:
           summary: "{{ $labels.instance }} недоступен"
           description: "{{ $labels.instance }} не отвечает более 1 минуты"
+
+      - alert: HighCpuUsage
+        expr: 100 * (1 - avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[1m]))) > 80
+        for: 1m
+        labels: 
+          severity: warning
+        annotations:
+          summary: "Высокая нагрузка CPU на {{ $labels.instance }}"
+          description: "Использование процессора на хосте {{ $labels.instance }} составляет {{ printf \"%.2f\" $value }}% в течение последней минуты."

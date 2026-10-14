@@ -7,6 +7,7 @@ services:
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheus-data:/prometheus
+      - ./alert.rules.yml:/etc/prometheus/alert.rules.yml
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
     restart: unless-stopped
@@ -28,6 +29,10 @@ services:
       - "9093:9093"
     volumes:
       - ./alertmanager.yml:/etc/alertmanager/alertmanager.yml
+      - ./telegram_id_critical:/etc/alertmanager/telegram_id_critical
+      - ./telegram_token:/etc/alertmanager/telegram_token
+      - ./telegram_id_warning:/etc/alertmanager/telegram_id_warning
+      - ./telegram_token:/etc/alertmanager/telegram_token
     restart: unless-stopped
 volumes:
   prometheus-data:
